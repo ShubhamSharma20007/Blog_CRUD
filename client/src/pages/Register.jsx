@@ -1,14 +1,41 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import axios from 'axios'
 const Register = () => {
+  
   const [value, setValue]= useState({
     name :'',
     email:'',
     password :'',
     confirmPassword:''
   })
-  console.log(value)
+
+  const sendata = async(e)=>{
+    e.preventDefault();
+    const res = await axios.post("http://localhost:3000/v1/api/users/register",{
+      name:value.name,
+      email:value.email,
+      password:value.password,
+      confirmPassword:value.confirmPassword
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+    console.log(res,121)
+    if(res){
+      console.log(res)
+      setValue({
+        name :'',
+        email:'',
+        password :'',
+        confirmPassword:''
+      })
+    }
+
+  }
+ 
+
 
   const handleChange =(e)=>{
     setValue((prev)=>{
@@ -28,7 +55,7 @@ const Register = () => {
               <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                   Create and account
               </h1>
-              <form class="space-y-4 md:space-y-6" action="#">
+              <form class="space-y-4 md:space-y-6" onSubmit={sendata} >
               <div>
                       <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Name</label>
                       <input onChange={handleChange} value={value.name} type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name..." required=""/>
