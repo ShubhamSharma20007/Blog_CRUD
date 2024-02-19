@@ -16,10 +16,7 @@ const app = express();
 const { v4: uuid } = require('uuid')
 connectDB();
 
-cors.apply({
-    origin: [`http://localhost:${process.env.PORT}`],
-    credentials: true
-})
+app.use(cors())
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))

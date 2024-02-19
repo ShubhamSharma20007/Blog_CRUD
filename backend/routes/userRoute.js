@@ -7,8 +7,8 @@ const authMiddleware = require("../middleware/authMiddleware")
 const mongoose = require('mongoose')
 route.post('/register', async(req, res) => {
     try {
-        const { name, email, password, password2 } = req.body;
-        if (!name || !email || !password || !password2) {
+        const { name, email, password, confirmPassword } = req.body;
+        if (!name || !email || !password || !confirmPassword) {
             return res.status(400).json({ success: false, message: "Please fill all the fields" })
         }
 
@@ -16,7 +16,7 @@ route.post('/register', async(req, res) => {
         if (existsEmail) {
             return res.status(400).json({ success: false, message: "Email already exists" })
         }
-        if (password !== password2) {
+        if (password !== confirmPassword) {
             return res.status(400).json({ success: false, message: "password is not match" })
         }
 
