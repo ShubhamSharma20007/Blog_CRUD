@@ -4,7 +4,6 @@ const userModel = require('../Models/userModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const authMiddleware = require("../middleware/authMiddleware")
-
 const mongoose = require('mongoose')
 route.post('/register', async(req, res) => {
     try {

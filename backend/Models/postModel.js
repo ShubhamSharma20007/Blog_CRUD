@@ -28,6 +28,9 @@ const postModel = new Schema({
             }
         }
     },
+    thumbnail:{
+        type :String
+    },
     creator: {
         type: Schema.Types.ObjectId,
         ref: 'User'
