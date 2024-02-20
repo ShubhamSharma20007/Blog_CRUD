@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import axios from 'axios'
+
 const Register = () => {
   
   const [value, setValue]= useState({
@@ -10,29 +11,31 @@ const Register = () => {
     password :'',
     confirmPassword:''
   })
-
-  const sendata = async(e)=>{
+  const sendata = async (e) => {
     e.preventDefault();
-    const res = await axios.post("http://localhost:3000/v1/api/users/register",{
-      name:value.name,
-      email:value.email,
-      password:value.password,
-      confirmPassword:value.confirmPassword
+    const url = `/users/register`;
+    
+    const res = await axios.post(url, {
+      name: value.name,
+      email: value.email,
+      password: value.password,
+      confirmPassword: value.confirmPassword
     })
-    .catch((err)=>{
-      console.log(err)
-    })
-    console.log(res,121)
-    if(res){
-      console.log(res)
+    .catch((err) => {
+      console.log(err);
+    });
+  
+    console.log(res, 121);
+  
+    if (res) {
+      console.log(res);
       setValue({
-        name :'',
-        email:'',
-        password :'',
-        confirmPassword:''
-      })
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+      });
     }
-
   }
  
 
