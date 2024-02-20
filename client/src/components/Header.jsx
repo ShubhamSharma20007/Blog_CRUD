@@ -1,9 +1,22 @@
 import React from "react";
 import { useEffect } from "react";
-
-
-
+import { useNavigate } from "react-router-dom";
+import { useState,useContext } from "react";
+import {UserContext} from "../Context/userContext"
 const Header = () => {
+    const{ setCurrentUser,currentUser} = useContext(UserContext)
+    const navigate = useNavigate()
+
+    useEffect(()=>{
+      const btn =  document.querySelector(".logoutBtn")
+      btn.addEventListener('click',()=>{
+        setCurrentUser(null)
+        navigate("/login")
+
+      })
+    },[])
+
+
   useEffect(()=>{
     const btn = document.querySelector("button")
     const container = document.querySelector(".container-nav ")
@@ -90,8 +103,8 @@ const Header = () => {
               </li>
               <li>
                 <a
-                  href="#"
-                  class="block py-2 px-3 font-bold text-black rounded md:bg-transparent md:text-black md:p-0 dark:text-black "
+                
+                  class="block logoutBtn  py-2 px-3 font-bold text-black rounded md:bg-transparent md:text-black md:p-0 dark:text-black "
                 >
                   Logout
                 </a>

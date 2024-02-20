@@ -16,10 +16,11 @@ import AuthorPosts from "./pages/AuthorPost";
 import Dashboard from './pages/Dashboard';
 import EditPost from './pages/EditPost';
 import DeletePost from "./pages/DeletePost"
+import UserProvide from './Context/userContext';
 const router = createBrowserRouter([
     {
         path:"/",
-        element:<Layout/>,
+        element:<UserProvide><Layout/></UserProvide>,
         errorElement:<ErrorPage/>,
         
         children:[

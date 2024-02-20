@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState ,useContext } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-
+import {UserContext} from "../Context/userContext"
 const Login = () => {
     const navigate = useNavigate();
+    const {setCurrentUser} = useContext(UserContext)
     const [value, setValue] = useState({
         email: '',
         password: ''
@@ -22,17 +23,19 @@ const Login = () => {
                 email: value.email,
                 password: value.password
             });
-            const response = await axios.data;
-            console.log(response);
+            const result = await res.data;
+            console.log(result)
             if (res.data.success === true) {
                 alert('User login successfully');
                 setValue({ email: '', password: '' });
-                navigate('/')
+                setCurrentUser(result)
+                navigate('/');
+             
             } else {
                 setError('Invalid email or password');
             }
         } catch (error) {
-            console.log();
+            console.log(error)
             setError(error.response.data.message);
     }}
     return (
