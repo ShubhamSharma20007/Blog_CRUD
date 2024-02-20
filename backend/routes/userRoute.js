@@ -42,7 +42,7 @@ route.post('/login', async(req, res) => {
         }
         const isMatch = await bcrypt.compare(password, model.password)
         if (!isMatch) {
-            return res.status(200).json({ success: true, message: "Invalid email or password" })
+            return res.status(400).json({ success: false, message: "Invalid email or password" })
         }
 
         const option = {
@@ -50,7 +50,7 @@ route.post('/login', async(req, res) => {
         }
         const token = await jwt.sign({ _id: model._id, name: model.name }, process.env.SECRECT_KEY, option)
         req.headers.authorization = `Bearer ${token}`
-        return res.status(200).json({ success: true, message: "Login Successfully", token })
+        return res.status(200).json({ success: true, message: "Login Successfully", token, name: model.name })
     } catch (error) {
         return res.status(400).json({ success: false, message: error.message })
     }
