@@ -49,7 +49,7 @@ route.post('/login', async(req, res) => {
             expiresIn: "1d"
         }
         const token = await jwt.sign({ _id: model._id, name: model.name }, process.env.SECRECT_KEY, option)
-
+        req.headers.authorization = `Bearer ${token}`
         return res.status(200).json({ success: true, message: "Login Successfully", token })
     } catch (error) {
         return res.status(400).json({ success: false, message: error.message })
