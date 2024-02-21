@@ -29,7 +29,7 @@ const Login = () => {
                 alert('User login successfully');
                 setValue({ email: '', password: '' });
                 setCurrentUser(result)
-                navigate('/');
+                window.location.href = window.location.origin;
              
             } else {
                 setError('Invalid email or password');

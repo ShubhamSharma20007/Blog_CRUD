@@ -1,8 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import UserContext from '../Context/userContext';
 function CreatePost() {
+  const navigate = useNavigate()
+  const{ currentUser} = useContext(UserContext)
+  console.log(currentUser)
+
+
   const [title,setTitle] = useState('')
   const [category,setCategory] = useState('')
   const [description,setDescription] = useState('')
