@@ -1,7 +1,18 @@
 import React from 'react'
 import Avatar from "../assets/avatar1.jpg"
 import { Link } from "react-router-dom";
+import { useContext,useEffect } from 'react';
+import {UserContext} from '../Context/userContext';
+import { useNavigate } from 'react-router-dom';
 const Dashboard = () => {
+  const navigate = useNavigate()
+  const{ currentUser} = useContext(UserContext)
+  const token =  currentUser?.token
+  useEffect(()=>{
+    if(!token){
+      navigate('/login')
+    }
+  },[])
   return (
     <div>
        <div className="w-full min-h-screen bg-indigo-100 pt-1">

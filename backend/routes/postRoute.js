@@ -45,7 +45,7 @@ route.post("/", authMiddleware, async(req, res) => {
         const { thumbnail } = req.files;
         let fileName = thumbnail.name;
         let splitFilename = fileName.split(".")
-        let newFileName = splitFilename[0] + uuid() + splitFilename[1]
+        let newFileName = splitFilename[0] + uuid() + "." + splitFilename[1]
         thumbnail.mv(path.join(__dirname, "..", "/uploads", newFileName), async(err) => {
             if (err) {
                 return res.status(500).json({ success: false, message: "Failed to upload image" })

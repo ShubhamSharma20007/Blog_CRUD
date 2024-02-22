@@ -1,8 +1,19 @@
 import React, { useState } from 'react'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useContext,useEffect } from 'react';
+import {UserContext} from '../Context/userContext';
+import { useNavigate } from 'react-router-dom';
 
 function EditPost() {
+  const navigate = useNavigate()
+  const{ currentUser} = useContext(UserContext)
+  const token =  currentUser?.token
+  useEffect(()=>{
+    if(!token){
+      navigate('/login')
+    }
+  },[])
   const [title,setTitle] = useState('')
   const [category,setCategory] = useState('')
   const [description,setDescription] = useState('')

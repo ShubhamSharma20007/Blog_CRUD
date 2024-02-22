@@ -89,7 +89,7 @@ const Header = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/create"
                   class="block py-2 px-3 font-bold text-black rounded md:bg-transparent md:text-black md:p-0 dark:text-black "
                 >
                   Create Post
