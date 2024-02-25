@@ -13,7 +13,6 @@
     z-index: 99;
     height: 100vh;
     background-color: white;
-    opacity: 0.6;
 }
 
 .pencil {
@@ -24,6 +23,11 @@
     left: 50%;
     transform: translate(-50%, -50%);
     top: 50%;
+}
+
+link,
+a {
+    cursor: pointer;
 }
 
 .pencil__body1,
@@ -194,4 +198,8 @@
         stroke-dashoffset: 439.82;
         transform: translate(100px, 100px) rotate(112deg);
     }
+}
+
+.ql-editor {
+    min-height: 20vh !important;
 }

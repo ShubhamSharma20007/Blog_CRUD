@@ -26,6 +26,9 @@ const fetchData =async()=>{
     React.useEffect(() => {
      fetchData()
     },[])
+
+    console.log(posts)
+  
   return (
     <div>
      {
@@ -34,16 +37,19 @@ const fetchData =async()=>{
       <section className="posts flex gap-6 m-5 flex-wrap ">
         {
        posts && posts.allposts && posts.allposts.length > 0 ? 
-          posts.allposts.map(({ _id, thumbnail,creator, updateAt, title, description,category }) => {
+          posts.allposts.map(({ _id, thumbnail,creator, updateAt, createdAt, title, description,category }) => {
             return (
               <PostItem
                 key={_id}
                 thumbnail={thumbnail}
                 title={title}
                 desc={description}
-                authorId={creator}
+                authorId={_id}
+                postId={_id}
+                creator={creator}
                 category={category}
                 updateAt={updateAt}
+                createdAt={createdAt}
               />
             );
           }) :

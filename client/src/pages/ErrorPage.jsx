@@ -3,16 +3,19 @@ import React from 'react'
 const ErrorPage = () => {
   return (
     <div>
-      <div className=" absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%]">
-      <div className=" border border-zinc-400 p-3 rounded-lg">
-        <h1 className='text-[9vw] -my-7 font-extrabold text-center'>404</h1>
-        <p className='text-center font-bold text-3xl mb-3'>Not Found</p>
-        <p className='capitalize font-bold text-2xl text-center'>the resouce requested could not be found on this server !</p>
-      
-      
-      </div>
-      </div>
+
+<div class="text-center flex justify-center items-center flex-col min-h-screen">
+    <h1 class="mb-4 text-6xl font-semibold text-red-500">404</h1>
+    <p class="mb-4 text-lg text-gray-600">Oops! Looks like you're lost.</p>
+    <div class="animate-bounce">
+      <svg class="mx-auto h-16 w-16 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+      </svg>
     </div>
+    <p class="mt-4 text-gray-600 ">Let's get you back <a href="/" class="text-blue-500 pl-2 font-bold">home</a>.</p>
+  </div>
+</div>
+
   )
 }
 

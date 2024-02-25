@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState,useContext } from "react";
 import {UserContext} from "../Context/userContext"
 const Header = () => {
@@ -79,13 +79,13 @@ const Header = () => {
             {currentUser?.success && (
               <>
                 <li>
-                <a
-                  href="#"
+                <Link
+                  to="/profile/23"
                   class="block py-2 px-3 font-bold text-black rounded md:bg-transparent md:text-black md:p-0 dark:text-black   "
                   aria-current="page"
                 >
-                  Ernest Achiever
-                </a>
+                  {currentUser?.name}
+                </Link>
               </li>
               <li>
                 <a
@@ -96,12 +96,12 @@ const Header = () => {
                 </a>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/authors"
                   class="block py-2 px-3 font-bold text-black rounded md:bg-transparent md:text-black md:p-0 dark:text-black "
                 >
                   Authors
-                </a>
+                </Link>
               </li>
               <li>
                 <a

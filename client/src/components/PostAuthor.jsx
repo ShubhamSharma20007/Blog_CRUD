@@ -1,7 +1,32 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Avatar from "../assets/avatar1.jpg"
-const PostAuthor = ({authorId,creator}) => {
+import axios from "axios"
+import ReactTimeAgo from 'react-time-ago'
+import TimeAgo from 'javascript-time-ago'
+
+import en from "javascript-time-ago/locale/en.json"
+import ru from "javascript-time-ago/locale/ru.json"
+
+TimeAgo.addDefaultLocale(en)
+TimeAgo.addLocale(ru)
+
+const PostAuthor = ({authorId,creator,createdAt}) => {
+  const[author,setAuthor]=React.useState({})
+  const getAuthor = async () => {
+    try {
+      const response = await axios.get(`http://localhost:4000/v1/api/posts/users/${creator}`)
+      const data = await response.data
+      setAuthor(data.userData)
+    } catch (error) {
+      console.error("Error fetching author:", error)
+    
+    }
+  }
+    useEffect(()=>{
+      getAuthor()
+    },[])
+
   return (
     <div>
       <Link to={`/posts/users/${authorId}`}>
@@ -11,7 +36,7 @@ const PostAuthor = ({authorId,creator}) => {
         </div>
         <div className="">
           <h5 className='font-bold text-sm'>By: Albert Eistin</h5>
-          <small className='font-semibold'>Just now</small>
+          <small className='font-semibold'><ReactTimeAgo date={new Date(createdAt)} locale='en-IN' /></small>
         </div>
        </div>
       </Link>

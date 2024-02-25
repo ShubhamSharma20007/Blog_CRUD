@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <div>
@@ -20,71 +20,71 @@ const Footer = () => {
             </div>
             <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
               <div>
-                <a href="">
+                <Link to="/posts/categories/Agriculture">
                   {" "}
                   <p class="mb-3 hover:underline text-sm font-semibold text-gray-900 uppercase dark:text-white">
                     Agriculture
                   </p>
-                </a>
+                </Link>
               </div>
               <div>
-                <a href="">
+                <Link to="/posts/categories/Business">
                   {" "}
                   <p class="mb-3 hover:underline text-sm font-semibold text-gray-900 uppercase dark:text-white">
                     Business
                   </p>
-                </a>
+                </Link>
               </div>
               <div>
-                <a href="">
+                <Link to="/posts/categories/Education">
                   {" "}
                   <p class="mb-3 hover:underline text-sm font-semibold text-gray-900 uppercase dark:text-white">
                     Education
                   </p>
-                </a>
+                </Link>
               </div>
               <div>
-                <a href="">
+                <Link to="/posts/categories/Entertainment">
                   {" "}
                   <p class="mb-3 hover:underline text-sm font-semibold text-gray-900 uppercase dark:text-white">
                     Entertainment
                   </p>
-                </a>
+                </Link>
               </div>
 
               <div>
-                <a href="">
+                <Link to="/posts/categories/Weather">
                   {" "}
                   <p class="mb-3 hover:underline text-sm font-semibold text-gray-900 uppercase dark:text-white">
                     Weather
                   </p>
-                </a>
+                </Link>
               </div>
 
               <div>
-                <a href="">
+                <Link to="/posts/categories/Investment">
                   {" "}
                   <p class="mb-3 hover:underline text-sm font-semibold text-gray-900 uppercase dark:text-white">
                     Investment
                   </p>
-                </a>
+                </Link>
               </div>
               <div>
-                <a href="">
+                <Link to="/posts/categories/Uncategorized">
                   {" "}
                   <p class="mb-3 hover:underline text-sm font-semibold text-gray-900 uppercase dark:text-white">
                     Uncategorized
                   </p>
-                </a>
+                </Link>
               </div>
 
               <div>
-                <a href="">
+                <Link to="/posts/categories/Art">
                   {" "}
                   <p class="mb-3 hover:underline text-sm font-semibold text-gray-900 uppercase dark:text-white">
                     Art
                   </p>
-                </a>
+                </Link>
               </div>
             </div>
           </div>

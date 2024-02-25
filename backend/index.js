@@ -39,7 +39,7 @@ app.post('/change-avatar', authMiddleware, async(req, res) => {
         }
         const user = await userModel.findById(req.user._id)
         if (user.avatar) {
-            fs.unlink(path.join(__dirname, '..', 'uploads', user.avatar), (err) => {
+            fs.unlink(path.join(__dirname, '..', '/uploads', user.avatar), (err) => {
                 if (err) {
                     return res.status(500).json({
                         success: false,
@@ -61,7 +61,7 @@ app.post('/change-avatar', authMiddleware, async(req, res) => {
         fileName = avatar.name;
         let splitFilename = fileName.split(".")
         let newFileName = splitFilename[0] + uuid() + "." + splitFilename[splitFilename.length - 1]
-        avatar.mv(path.join(__dirname, "..", "uploads", newFileName), async(err) => {
+        avatar.mv(path.join(__dirname, "..", "/uploads", newFileName), async(err) => {
             if (err) {
                 return res.status(500).json({
                     success: false,

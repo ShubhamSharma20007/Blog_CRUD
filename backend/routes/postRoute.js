@@ -37,6 +37,7 @@ route.get("/", async(req, res) => {
 // Post : /api/posts
 // create the post
 route.post("/", authMiddleware, async(req, res) => {
+    return console.log(req.body)
     try {
         const { title, category, description } = req.body;
         if (!title || !category || !description) {
