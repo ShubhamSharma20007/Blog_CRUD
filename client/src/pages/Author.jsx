@@ -20,7 +20,6 @@ const Author = () => {
   },[])
 
 
-
   return (
 
      <div className="flex gap-5 flex-wrap m-3 justify-center  " >
@@ -35,7 +34,7 @@ const Author = () => {
             <div class="flex flex-col items-center pb-10">
               <img
                 class="w-24 h-24 mb-3 rounded-full shadow-lg"
-                src={Avatar}
+                src={`${process.env.REACT_APP_ASSET_URL}/${avatar}`}
                 alt="Bonnie image"
               />
               <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">

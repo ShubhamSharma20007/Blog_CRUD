@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const authMiddleware = require("../middleware/authMiddleware")
 const mongoose = require('mongoose')
+const path =  require('path')
 route.post('/register', async(req, res) => {
     try {
         const { name, email, password, confirmPassword } = req.body;
@@ -21,7 +22,10 @@ route.post('/register', async(req, res) => {
         }
 
         const bcryptPass = await bcrypt.hash(password, 10)
-        const model = await userModel.create({ name, email, password: bcryptPass })
+
+        // set the avatar  default image
+        const imagePath = '/profileAvatar.jpg';
+        const model = await userModel.create({ name, email, password: bcryptPass,avatar: imagePath })
         await model.save()
 
         return res.status(201).json({ success: true, model })
@@ -50,7 +54,7 @@ route.post('/login', async(req, res) => {
         }
         const token = await jwt.sign({ _id: model._id, name: model.name }, process.env.SECRECT_KEY, option)
             // req.headers.Authorization = `Bearer ${token}`
-        return res.status(200).json({ success: true, message: "Login Successfully", token, name: model.name })
+        return res.status(200).json({ success: true, message: "Login Successfully", token, name: model.name,id:model._id })
     } catch (error) {
         return res.status(400).json({ success: false, message: error.message })
     }

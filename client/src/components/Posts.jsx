@@ -1,11 +1,11 @@
 import React from "react";
 import PostItem from "./PostItem";
-import {Dummy_json} from "../data"
+
 import Loader from "./Loader";
 import axios from "axios"
 
 const Posts = () => {
-  const [posts, setPosts] = React.useState(Dummy_json);
+  const [posts, setPosts] = React.useState();
   const[isLoading,setIsLoading]=React.useState(true)
 
 // fetch the api
@@ -34,7 +34,7 @@ const fetchData =async()=>{
      {
       isLoading && <Loader></Loader>
      }
-      <section className="posts flex gap-6 m-5 flex-wrap ">
+      <section className="posts grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-6 m-5">
         {
        posts && posts.allposts && posts.allposts.length > 0 ? 
           posts.allposts.map(({ _id, thumbnail,creator, updateAt, createdAt, title, description,category }) => {
