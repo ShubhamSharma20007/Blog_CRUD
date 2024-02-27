@@ -113,50 +113,46 @@ route.get("/users/:id", async(req, res) => {
 
 // Patch : api/posts/:id
 
-route.patch("/posts/:id", authMiddleware, async(req, res) => {
+route.put("/posts/:id", authMiddleware, async (req, res) => {
     try {
         const { id } = req.params;
-        const { title, category, description } = req.body
+        const { title, category, description } = req.body;
         if (!title || !category || !description) {
-            return res.status(400).json({ success: false, message: "Please fill all the fields" })
+            return res.status(400).json({ success: false, message: "Please fill all the fields" });
         }
-        if (!req.files) {
-            const singleValue = await postModel.findByIdAndUpdate(id, { title, category, description }, { new: true })
-        } else {
-            const oldPost = await postModel.findById(id);
-            fs.unlink(path.join(__dirname, "..", oldPost.thumbnail), async(err) => {
+
+        let updateFields = { title, category, description };
+
+        if (!req.files || !req.files.thumbnail) {
+            const singleValue = await postModel.findByIdAndUpdate(id, updateFields, { new: true });
+            return res.status(200).json({ success: true, message: "Post Updated Successfully", singleValue });
+        }
+
+        const oldPost = await postModel.findById(id);
+        fs.unlink(path.join(__dirname, "..","/uploads", oldPost.thumbnail), async (err) => {
+            if (err) {
+                return res.status(500).json({ success: false, message: "Internal Server Error" ,err});
+            }
+
+            const { thumbnail } = req.files;
+            const fileName = thumbnail.name;
+            const splitFileName = fileName.split(".");
+            const newFileName = splitFileName[0] + uuid() + "." + splitFileName[splitFileName.length - 1];
+            thumbnail.mv(path.join(__dirname, "..", "/uploads", newFileName), async (err) => {
                 if (err) {
-                    return res.status(401).json({
-                        success: false,
-                        message: "Internal Server Error"
-                    })
+                    return res.status(500).json({ success: false, message: "Internal Server Error",err });
                 }
-                const { thumbnail } = req.files;
-                const fileName = thumbnail.name;
-                const splitFileName = fileName.split(".")
-                const newFileName = splitFileName[0] + uuid() + ".." + splitFileName[splitFileName.length - 1]
-                thumbnail.mv(path.join(__dirname, "..", "uploads", newFileName), async(err) => {
-                    if (err) {
-                        return res.status(401).json({
-                            success: false,
-                            message: "Internal Server Error"
-                        })
-                    }
-                    const uploadPost = await postModel.findByIdAndUpdate(id, { title, category, description, thumbnail: newFileName }, { new: true })
-                    return res.status(200).json({
-                        success: true,
-                        message: "Post Updated Successfully",
-                    })
-                })
-            })
+                updateFields.thumbnail = newFileName;
+                await postModel.findByIdAndUpdate(id, updateFields, { new: true });
+                return res.status(200).json({ success: true, message: "Post Updated Successfully" });
+            });
+        });
 
-        }
-        return res.status(200).json({ success: true, singleValue })
     } catch (error) {
-        return res.status(500).json({ success: false, message: "Internal Server Error" })
-
+        return res.status(500).json({ success: false, message: "Internal Server Error", error });
     }
-})
+});
+
 
 // delete : api/posts/:id
 

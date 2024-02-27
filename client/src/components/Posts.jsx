@@ -5,7 +5,7 @@ import Loader from "./Loader";
 import axios from "axios"
 
 const Posts = () => {
-  const [posts, setPosts] = React.useState();
+  const [posts, setPosts] = React.useState([]);
   const[isLoading,setIsLoading]=React.useState(true)
 
 // fetch the api

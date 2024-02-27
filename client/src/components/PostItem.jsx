@@ -1,7 +1,7 @@
 import React from "react";
 import PostAuthor from "./PostAuthor"
 import { Link } from "react-router-dom";
-
+import striptags from "striptags";
 const PostItem = ({postId,_id ,authorId,thumbnail,createdAt, creator,title,desc,category}) => {
   
   const shortDesc = desc.length > 100 ?desc.substring(0,100)+"..." :desc;
@@ -22,12 +22,12 @@ const PostItem = ({postId,_id ,authorId,thumbnail,createdAt, creator,title,desc,
             </h5>
  
           <p class="mb-3 text-md font-normal text-gray-700 dark:text-gray-400">
-            {shortDesc}
+         {striptags(shortDesc)}
           </p>
           </Link>
           
           <div className="posts-author w-full  ">
-            <PostAuthor creator={creator} createdAt={createdAt} authorId={authorId}/>
+            {/* <PostAuthor creator={creator} createdAt={createdAt} authorId={authorId}/> */}
             <div className="mt-5  absolute right-4 bottom-3 ">
             <Link   to={`/posts/categories/${category}`}><small className="text-md font-semibold bg-indigo-300 text-zinc-600 px-2 py-1 rounded-md  ">{category}</small></Link>
             </div>

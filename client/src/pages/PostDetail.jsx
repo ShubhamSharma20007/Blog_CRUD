@@ -6,6 +6,7 @@ import { useContext ,useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../Context/userContext";
 import Loader from "../components/Loader";
+import striptags from "striptags"
 import axios from "axios";
 const PostDetail = () => {
   const params = useParams()
@@ -68,12 +69,12 @@ const PostDetail = () => {
             </div>
           </div>
           <div className="text-xs md:text-[16px] mt-5 mb-4 font-bold">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Possimus, veritatis.
-          </div>
+  {striptags(posts.title)}
+</div>
           <div className="img-container h-72 border rounded-md">
       <img src={`${process.env.REACT_APP_ASSET_URL}/${posts.thumbnail}`}  alt=""  className="object-cover w-full h-full" />
           </div>
-          <p className="text-md text-bold mt-4" dangerouslySetInnerHTML={{__html:posts.description}} >
+          <p className="text-md text-bold mt-4" dangerouslySetInnerHTML={{__html:striptags(posts.description)}} >
           
       </p>
         </div>

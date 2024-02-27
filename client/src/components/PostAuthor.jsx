@@ -28,6 +28,7 @@ console.log(user)
     useEffect(()=>{
       getAuthor()
     },[])
+  
    
 
   return (
