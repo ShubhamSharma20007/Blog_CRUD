@@ -21,7 +21,7 @@ console.log(value)
   }
   return (
     <div>
-      
+    <Link ></Link>
     <div className="w-full min-h-screen bg-indigo-100 flex justify-center ">
    <div className="w-full md:w-1/2 h-auto bg-white my-3 md:mx-0 mx-3 rounded-md p-5">
     <center className='relative'>

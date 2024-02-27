@@ -8,6 +8,7 @@ import { UserContext } from "../Context/userContext";
 import Loader from "../components/Loader";
 import striptags from "striptags"
 import axios from "axios";
+
 const PostDetail = () => {
   const params = useParams()
   const {id} = params;
@@ -40,6 +41,29 @@ const PostDetail = () => {
   },[])
 
 
+   const removePost = async (id)=>{
+try {
+  const res = await axios.delete(`${process.env.REACT_APP_BASE_POST_URL}/posts/${id}`,{
+    withCredentials:true,
+    headers:{
+      Authorization :`Bearer ${token}`
+    }
+   })
+
+   if(res.status === 200){
+    setTimeout(()=>{
+      navigate("/")
+    },0)
+   }
+} catch (error) {
+  console.log(error.response.data.message)
+}
+finally{
+  setLoading(false)
+}
+   }  
+  
+
   return (
    
     <div>
@@ -62,7 +86,7 @@ const PostDetail = () => {
              <Link to={`/posts/${posts._id}/edit`}>
              <button className="bg-indigo-700 hover:bg-indigo-600  text-semibold text-white rounded-md px-3 py-1 m-0">Edit</button>
              </Link>
-             <Link to={`/posts/werwer/delete`}>
+             <Link onClick={()=>removePost(id)}>
              <button className="bg-red-700 hover:bg-red-600 text-white text-semibold rounded-md px-3 py-1">Delete</button>
              
              </Link>
