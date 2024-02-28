@@ -18,7 +18,7 @@ const UserProvider = ({ children }) => {
   }, [currentUser]);
 
 
-  //  current user login
+ //  current user login
     // useEffect(()=>{
     //   const fetchAPI =async()=>{
     //     const res = await axios.post(`${process.env.REACT_APP_BASE_USER_URL }/${currentUser?.id}`)
@@ -29,9 +29,18 @@ const UserProvider = ({ children }) => {
     //   fetchAPI()
     // },[currentUser])
 
+
+    useEffect(()=>{
+      currentUser && axios.post(`${process.env.REACT_APP_BASE_USER_URL }/${currentUser?.id}`)
+      .then(res=>{
+        const data = res.data;
+        setUser(data?.model || "" )
+      })
+    },[])
+
   
   return (
-    <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+    <UserContext.Provider value={{ currentUser, setCurrentUser,user }}>
       {children}
     </UserContext.Provider>
   );

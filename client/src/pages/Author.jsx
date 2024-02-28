@@ -33,9 +33,12 @@ const Author = () => {
          
             <div class="flex flex-col items-center pb-10">
               <img
+               onError={(e)=>{
+                e.target.src = `${process.env.REACT_APP_ASSET_URL}/profileAvatar.jpg`
+              }}
                 class="w-24 h-24 mb-3 rounded-full shadow-lg"
                 src={`${process.env.REACT_APP_ASSET_URL}/${avatar}`}
-                alt="Bonnie image"
+                
               />
               <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">
                 {name}

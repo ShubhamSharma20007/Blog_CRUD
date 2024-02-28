@@ -25,10 +25,10 @@ const Register = () => {
       console.log(err);
     });
   
-    console.log(res, 121);
+  
   
     if (res) {
-      console.log(res);
+    
       setValue({
         name: '',
         email: '',

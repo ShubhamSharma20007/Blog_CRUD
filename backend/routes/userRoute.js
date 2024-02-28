@@ -117,7 +117,7 @@ route.put('/edit-user', authMiddleware, async(req, res) => {
         }
         // hash new password
         const hashPassword = await bcrypt.hash(newPassword, 10)
-
+        
         // update user info in database
         const newInfo = await userModel.findByIdAndUpdate(req.user._id, { $set: { email, password: hashPassword } }, { new: true })
         console.log(newInfo)

@@ -80,20 +80,20 @@ const Header = () => {
               <>
                 <li>
                 <Link
-                  to="/profile/23"
+                  to={`/profile/${currentUser.id}`}
                   class="block py-2 px-3 font-bold text-black rounded md:bg-transparent md:text-black md:p-0 dark:text-black   "
                   aria-current="page"
                 >
-                  {currentUser?.name}
+                 Profile
                 </Link>
               </li>
               <li>
-                <a
-                  href="/create"
+                <Link
+                  to="/create"
                   class="block py-2 px-3 font-bold text-black rounded md:bg-transparent md:text-black md:p-0 dark:text-black "
                 >
                   Create Post
-                </a>
+                </Link>
               </li>
               <li>
                 <Link
@@ -104,7 +104,7 @@ const Header = () => {
                 </Link>
               </li>
               <li>
-                <a
+                <a  
                 
                   class="block logoutBtn  py-2 px-3 font-bold text-black rounded md:bg-transparent md:text-black md:p-0 dark:text-black "
                 >

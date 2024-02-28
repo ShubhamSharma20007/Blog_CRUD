@@ -24,7 +24,7 @@ const Login = () => {
                 password: value.password
             });
             const result = await res.data;
-            console.log(result)
+     
             if (res.data.success === true) {
                 alert('User login successfully');
                 setValue({ email: '', password: '' });
@@ -35,7 +35,7 @@ const Login = () => {
                 setError('Invalid email or password');
             }
         } catch (error) {
-            console.log(error)
+         
             setError(error.messaga);
     }}
     return (

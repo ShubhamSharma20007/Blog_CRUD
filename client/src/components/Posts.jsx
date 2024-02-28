@@ -13,7 +13,7 @@ const fetchData =async()=>{
   try {
     const res = await  axios.get(`http://localhost:4000/v1/api/posts`)      
     const data = await res.data;
-    console.log(data)
+
     setPosts(data)
 
   } catch (error) {
@@ -27,7 +27,7 @@ const fetchData =async()=>{
      fetchData()
     },[])
 
-    console.log(posts)
+
   
   return (
     <div>

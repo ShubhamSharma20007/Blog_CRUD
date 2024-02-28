@@ -29,7 +29,7 @@ const FetchData =async()=>{
      FetchData()
     },[])
 
-    console.log(posts)
+
   
   return (
     <div>

@@ -14,7 +14,7 @@ TimeAgo.addLocale(ru)
 
 const PostAuthor = ({authorId,creator,createdAt}) => {
   const {user} = useContext(UserContext)
-console.log(user)
+
   const[author,setAuthor]=React.useState([])
   const getAuthor = async () => {
     try {

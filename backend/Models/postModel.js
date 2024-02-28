@@ -16,7 +16,7 @@ const postModel = new Schema({
     category: {
         type: String,
         enum: ['Agriculture', 'Business', 'Education', 'Entertainment', 'Art', 'Investment',
-            'Uncategoized', 'Weather', "lifes"
+            'Uncategorized', 'Weather', "lifes"
         ],
         message: 'Invalid category',
     },

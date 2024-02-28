@@ -3,17 +3,17 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./db/connectDB');
 const userRoute = require('./routes/userRoute');
-const bodyParser = require('body-parser');
 const postRoute = require('./routes/postRoute');
 const expressfileupload = require('express-fileupload')
-
 const multer = require('multer');
 const authMiddleware = require('./middleware/authMiddleware');
 const userModel = require('./Models/userModel');
 const fs = require('fs');
 const path = require('path');
 const app = express();
-const { v4: uuid } = require('uuid')
+
+const { v4: uuid } = require('uuid');
+const { default: mongoose } = require('mongoose');
 connectDB();
 
 app.use(cors({
@@ -35,64 +35,34 @@ app.use("/v1/api/users", userRoute)
 app.use('/v1/api/posts', postRoute)
 
 
-app.post('/change-avatar', authMiddleware, async(req, res) => {
+
+app.post('/change-avatar/:id',authMiddleware,async(req,res)=>{
+    const id = req.params.id;
     try {
-        if (!req.files.avatar) {
-            return res.status(400).json({
-                success: false,
-                message: "No file uploaded"
-            })
-        }
-        const user = await userModel.findById(req.user._id)
-        if (user.avatar) {
-            fs.unlink(path.join(__dirname, '..', '/uploads', user.avatar), (err) => {
-                if (err) {
-                    return res.status(500).json({
-                        success: false,
-                        message: "Error while deleting file"
-                    })
-                }
-            })
-        }
-        const { avatar } = req.files;
-
-        if (avatar.size > 50000) {
-            return res.status(400).json({
-                sucess: false,
-                message: "File size too large"
-            })
-        }
-
-        let fileName;
-        fileName = avatar.name;
-        let splitFilename = fileName.split(".")
-        let newFileName = splitFilename[0] + uuid() + "." + splitFilename[splitFilename.length - 1]
-        avatar.mv(path.join(__dirname, "..", "/uploads", newFileName), async(err) => {
-            if (err) {
-                return res.status(500).json({
-                    success: false,
-                    message: "Error while uploading file"
-                })
-            }
-
-            const uploadAvatar = await userModel.findByIdAndUpdate(req.user._id, { avatar: newFileName }, { new: true })
-            if (!uploadAvatar) {
-                return res.status(400).json({
-                    success: false,
-                    message: "Error while uploading file"
-                })
-            }
-            return res.status(200).json({
-                success: true,
-                message: "File uploaded successfully",
-            })
-        })
-
-
-    } catch (error) {
-
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({message:"User not found"})
     }
-});
+    const user = await userModel.findById(id);
+    if(user){
+        const {avatar} = req.files;
+        const fileSplit = avatar.name.split('.');
+        const newFilename = fileSplit[0]+uuid()+'.'+fileSplit[1];
+        avatar.mv(path.join(__dirname,"/uploads",newFilename),async(err)=>{
+            if(err){
+                return res.status(500).json({message:"Internal server error",err})
+            }
+            await userModel.findByIdAndUpdate(id,{avatar:newFilename},{new:true})
+            return res.status(200).json({message:"Avatar changed successfully"})
+        })
+    }
+    
+    } catch (error) {
+        return res.status(500).json({message:"Internal server error",error:error.message})
+    }
+})
+
+
+
 
 
 

@@ -36,7 +36,7 @@ function EditPost() {
     getPost();
   }, [id]);
 
-  console.log(updatedata)
+
 
 
   const sendFormData = async (e) => {

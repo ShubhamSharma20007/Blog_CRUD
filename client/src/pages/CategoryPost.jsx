@@ -15,7 +15,7 @@ const FetchData =async()=>{
   try {
     const res = await  axios.get(`http://localhost:4000/v1/api/posts/categories/${category}`)      
     const data = await res.data;
-    console.log(data)
+  
     setPosts(data.rawCategory)
 
   } catch (error) {
@@ -29,7 +29,7 @@ const FetchData =async()=>{
      FetchData()
     },[category])
 
-    console.log(posts)
+
   
   return (
     <div>

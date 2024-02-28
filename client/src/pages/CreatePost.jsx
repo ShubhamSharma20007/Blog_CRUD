@@ -30,7 +30,6 @@ function CreatePost() {
     postData.append("category", category);
     postData.append("description", striptags(description));
     postData.append("thumbnail", thumbnail);
-
     try {
       const res = await axios.post(
         "http://localhost:4000/v1/api/posts",
@@ -128,7 +127,40 @@ function CreatePost() {
                 ))}
               </select>
             </div>
-            <ReactQuill  className='text-sm font-semibold' theme="snow"  value={description}  onChange={setDescription}/>
+            <ReactQuill
+  className='text-sm font-semibold'
+  theme="snow"
+  value={description}
+  onChange={setDescription}
+  modules={{
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      ['blockquote', 'code-block'],
+      [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+      [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+      [{ 'direction': 'rtl' }],                         // text direction
+      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+      [{ 'font': [] }],
+      [{ 'align': [] }],
+      ['clean']                                         // remove formatting button
+    ],
+  }}
+  formats={[
+    'header', 'font', 'size',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image', 'color', 'background'
+  ]}
+  // Custom paste handler to remove background color
+  clipboard={{
+    matchVisual: false,
+  }}
+/>
+
             <div>
               <label
                 for="thumbnail"
