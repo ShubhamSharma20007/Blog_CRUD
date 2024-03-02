@@ -34,6 +34,55 @@ route.get("/", async(req, res) => {
     }
 })
 
+route.get("/filterposts", async(req, res) => {
+    try {
+        const allPosts = await postModel.find();
+        const users = await userModel.find();
+
+        if (allPosts.length === 0 || users.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: 'Data not found'
+            });
+        }
+
+        const filteredPosts = allPosts.filter(post => {
+            const creatorId = post.creator.toString();
+            const user = users.find(user => user._id.toString() === creatorId);
+            return user;
+        });
+
+        if (filteredPosts.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: 'No posts found for matching users'
+            });
+        }
+
+        const postsWithUserData = filteredPosts.map(post => {
+            const creatorId = post.creator.toString();
+            const user = users.find(user => user._id.toString() === creatorId);
+            return {
+                ...post.toJSON(),
+                userAvatar: user.avatar // Assuming avatar is a field in the userModel
+            };
+        });
+
+        return res.status(200).json({
+            success: true,
+            posts: postsWithUserData
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+});
+
+
+
 // Post : /api/posts
 // create the post
 route.post("/", authMiddleware, async(req, res) => {
@@ -158,50 +207,53 @@ route.put("/posts/:id", authMiddleware, async (req, res) => {
 
 route.delete("/posts/:id", authMiddleware, async(req, res) => {
     try {
-        const { id } = req.params
+        const { id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({
                 success: false,
                 message: "Invalid id "
-            })
+            });
         }
-        if (!req.files) {
-            const post = await postModel.findByIdAndDelete(id)
-            return res.status(200).json({
-                message: 'Post Delete succesfully',
-                success: true
-            })
-        } else {
-            const findPost = await postModel.findById(id);
-            const fileName = findPost.thumbnail;
-            fs.unlink(path.join(__dirname, "..", "uploads", fileName), async(err) => {
-                if (err) {
-                    return res.status(500).json({
-                        success: false,
-                        message: "Internal Server Error"
-                    })
-                } else {
-                    await postModel.findByIdAndDelete(id)
-                        // find the post and reduce the post count from user model 
-                    const user = await userModel.findById(req.user._id)
-                    const userPostCount = user.posts - 1
-                    await userModel.findByIdAndUpdate(req.user._id, { posts: userPostCount }, { new: true })
 
-                }
-            })
+        const findPost = await postModel.findById(id);
+        if (!findPost) {
+            return res.status(404).json({
+                success: false,
+                message: "Post not found"
+            });
         }
+
+        const fileName = findPost.thumbnail;
+        fs.unlink(path.join(__dirname, "..", "/uploads", fileName), async(err) => {
+            if (err) {
+                return res.status(500).json({
+                    success: false,
+                    message: "Internal Server Error"
+                });
+            } else {
+                await postModel.findByIdAndDelete(id);
+
+                // Reduce the post count in the user model
+                const user = await userModel.findById(req.user._id);
+                if (user) {
+                    user.posts = user.posts - 1;
+                    await user.save();
+                }
+            }
+        });
+
         return res.status(200).json({
-            messgae: ` post delete successfuly ${id}`,
+            message: `Post deleted successfully: ${id}`,
             success: true
-        })
+        });
     } catch (error) {
         return res.status(500).json({
             success: false,
             message: "Internal Server Error"
-        })
+        });
     }
+});
 
-})
 
 
 

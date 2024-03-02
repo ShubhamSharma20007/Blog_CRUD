@@ -36,30 +36,30 @@ app.use('/v1/api/posts', postRoute)
 
 
 
-app.post('/change-avatar/:id',authMiddleware,async(req,res)=>{
+app.post('/change-avatar/:id', authMiddleware, async (req, res) => {
     const id = req.params.id;
     try {
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({message:"User not found"})
-    }
-    const user = await userModel.findById(id);
-    if(user){
-        const {avatar} = req.files;
-        const fileSplit = avatar.name.split('.');
-        const newFilename = fileSplit[0]+uuid()+'.'+fileSplit[1];
-        avatar.mv(path.join(__dirname,"/uploads",newFilename),async(err)=>{
-            if(err){
-                return res.status(500).json({message:"Internal server error",err})
-            }
-            await userModel.findByIdAndUpdate(id,{avatar:newFilename},{new:true})
-            return res.status(200).json({message:"Avatar changed successfully"})
-        })
-    }
-    
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        const user = await userModel.findById(id);
+        if (user) {
+            const { avatar } = req.files;
+            const fileSplit = avatar.name.split('.');
+            const newFilename = fileSplit[0] + uuid() + '.' + fileSplit[1];
+            avatar.mv(path.join(".", "/uploads", newFilename), async (err) => {
+                if (err) {
+                    return res.status(500).json({ message: "Internal server error", err });
+                }
+                await userModel.findByIdAndUpdate(id, { avatar: newFilename }, { new: true });
+                return res.status(200).json({ message: "Avatar changed successfully" });
+            });
+        }
+
     } catch (error) {
-        return res.status(500).json({message:"Internal server error",error:error.message})
+        return res.status(500).json({ message: "Internal server error", error: error.message });
     }
-})
+});
 
 
 

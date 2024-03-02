@@ -50,10 +50,9 @@ const[loader,setLoader] =useState(true)
       // Assuming res.data contains the updated user data including the new avatar
       setAvatarValue(res.data.avatar);
       setUploadSuccess(true);
-      setTimeout(() => {
-        setUploadSuccess(false);
-        window.location.reload(); // Reload the page
-      }, 2000); // Reload after 2 seconds
+      if(res.status === 200){
+        window.location.reload()
+      }
     } catch (error) {
       console.log(error);
     } finally {

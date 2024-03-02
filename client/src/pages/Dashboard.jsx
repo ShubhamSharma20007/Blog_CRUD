@@ -36,6 +36,7 @@ const [loader,setLoader] = React.useState(true)
     }
     fetchData()
   },[id])
+  console.log(postdata)
   
   const removeEntery = async(id)=>{
     try{
