@@ -64,12 +64,14 @@ route.get("/filterposts", async(req, res) => {
             const user = users.find(user => user._id.toString() === creatorId);
             return {
                 ...post.toJSON(),
+                username: user.name,
                 userAvatar: user.avatar // Assuming avatar is a field in the userModel
             };
         });
 
         return res.status(200).json({
             success: true,
+
             posts: postsWithUserData
         });
 
@@ -162,7 +164,7 @@ route.get("/users/:id", async(req, res) => {
 
 // Patch : api/posts/:id
 
-route.put("/posts/:id", authMiddleware, async (req, res) => {
+route.put("/posts/:id", authMiddleware, async(req, res) => {
     try {
         const { id } = req.params;
         const { title, category, description } = req.body;
@@ -178,18 +180,18 @@ route.put("/posts/:id", authMiddleware, async (req, res) => {
         }
 
         const oldPost = await postModel.findById(id);
-        fs.unlink(path.join(__dirname, "..","/uploads", oldPost.thumbnail), async (err) => {
+        fs.unlink(path.join(__dirname, "..", "/uploads", oldPost.thumbnail), async(err) => {
             if (err) {
-                return res.status(500).json({ success: false, message: "Internal Server Error" ,err});
+                return res.status(500).json({ success: false, message: "Internal Server Error", err });
             }
 
             const { thumbnail } = req.files;
             const fileName = thumbnail.name;
             const splitFileName = fileName.split(".");
             const newFileName = splitFileName[0] + uuid() + "." + splitFileName[splitFileName.length - 1];
-            thumbnail.mv(path.join(__dirname, "..", "/uploads", newFileName), async (err) => {
+            thumbnail.mv(path.join(__dirname, "..", "/uploads", newFileName), async(err) => {
                 if (err) {
-                    return res.status(500).json({ success: false, message: "Internal Server Error",err });
+                    return res.status(500).json({ success: false, message: "Internal Server Error", err });
                 }
                 updateFields.thumbnail = newFileName;
                 await postModel.findByIdAndUpdate(id, updateFields, { new: true });

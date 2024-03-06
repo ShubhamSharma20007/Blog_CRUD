@@ -28,15 +28,16 @@ const PostAuthor = ({ authorId, creator, createdAt }) => {
       console.error("Error fetching users:", error);
     }
   };
-
+  console.log(users)
   useEffect(() => {
     getUsers();
+   
   }, []);
 
   return (
     <div className="holder">
       <Link to={`/posts/users/${authorId}`}>
-        <div className="wrapper w-full flex gap-5">
+        <div className="wrapper w-full flex gap-5 ">
           <div>
             {users.map((user, index) => {
               if (user._id === authorId) {
@@ -53,7 +54,15 @@ const PostAuthor = ({ authorId, creator, createdAt }) => {
             })}
           </div>
           <div className="">
-            <h5 className="font-bold text-sm">By: {creator}</h5>
+            {
+              users.map((user, index) => {
+                if(user._id === authorId){
+                  return(
+                    <h5 className="font-bold text-sm">By: {user.username}</h5>
+                  )
+                }
+              })
+            }
             <small className="font-semibold">
               <ReactTimeAgo date={new Date(createdAt)} locale="en-IN" />
             </small>

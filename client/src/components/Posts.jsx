@@ -34,7 +34,7 @@ const fetchData =async()=>{
      {
       isLoading && <Loader></Loader>
      }
-      <section className="posts grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-6 m-5">
+      <section className="posts auto-rows-auto  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4  gap-x-4 gap-y-6 m-5">
         {
        posts && posts.allposts && posts.allposts.length > 0 ? 
           posts.allposts.map(({ _id, thumbnail,creator, updateAt, createdAt, title, description,category }) => {
