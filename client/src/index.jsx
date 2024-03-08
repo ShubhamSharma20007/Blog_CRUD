@@ -16,10 +16,14 @@ import AuthorPosts from "./pages/AuthorPost";
 import Dashboard from './pages/Dashboard';
 import EditPost from './pages/EditPost';
 import UserProvide from './Context/userContext';
+import {ToastContainer} from "react-toastify"
 const router = createBrowserRouter([
     {
         path:"/",
-        element:<UserProvide><Layout/></UserProvide>,
+        element:<UserProvide>
+            <ToastContainer />
+          <Layout/>
+          </UserProvide>,
         errorElement:<ErrorPage/>,
         
         children:[

@@ -2,6 +2,8 @@ import React, { useState ,useContext } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import {UserContext} from "../Context/userContext"
+import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 const Login = () => {
     const navigate = useNavigate();
     const {setCurrentUser} = useContext(UserContext)
@@ -9,7 +11,7 @@ const Login = () => {
         email: '',
         password: ''
     });
-    const [error, setError] = useState('');
+
 
     function handleChange(e) {
         setValue((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -24,22 +26,25 @@ const Login = () => {
                 password: value.password
             });
             const result = await res.data;
-     
-            if (res.data.success === true) {
-                alert('User login successfully');
+            if (result.success === true) {
+                toast.success(result.message)
                 setValue({ email: '', password: '' });
                 setCurrentUser(result)
+            setTimeout(()=>{
                 window.location.href = window.location.origin;
+            },2000)
              
             } else {
-                setError('Invalid email or password');
+               toast.error(res.message)
             }
         } catch (error) {
          
-            setError(error.messaga);
+            toast.error(error.message)
     }}
+  
     return (
         <div>
+            
             <section className="bg-gray-50 dark:bg-gray-900">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                     <p className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
@@ -50,7 +55,7 @@ const Login = () => {
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                                 Login
                             </h1>
-                            {error && <div className="text-red-500">{error}</div>}
+                        
                             <form className="space-y-4 md:space-y-6" onSubmit={postData}>
                                 <div>
                                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>

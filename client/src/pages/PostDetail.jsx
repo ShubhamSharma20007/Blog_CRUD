@@ -8,6 +8,7 @@ import { UserContext } from "../Context/userContext";
 import Loader from "../components/Loader";
 import striptags from "striptags"
 import axios from "axios";
+import {toast} from "react-toastify"
 
 const PostDetail = () => {
   const params = useParams()
@@ -28,7 +29,10 @@ const PostDetail = () => {
  try {
   const res = await  axios.get(`${process.env.REACT_APP_BASE_POST_URL}/${id}`)
   const data = res.data;
-  setPosts(data.post);
+  if(res.status === 200){
+    setPosts(data.post);
+
+  }
 
  } catch (error) {
   console.log(error)
@@ -51,9 +55,10 @@ try {
    })
 
    if(res.status === 200){
+    toast.success("Post Deleted")
     setTimeout(()=>{
       navigate("/")
-    },0)
+    },2000)
    }
 } catch (error) {
   console.log(error.response.data.message)

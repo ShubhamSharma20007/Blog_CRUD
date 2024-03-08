@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import striptags from "striptags";
 const PostItem = ({postId,_id ,authorId,thumbnail,createdAt, creator,title,desc,category}) => {
   
-  const shortDesc = desc.length > 100 ?desc.substring(0,50)+"..." :desc;
+  const shortDesc = desc.length > 20 ?desc.substring(0,60)+"..." :desc;
   const postTitle = title.length > 30 ? title.substring(0,20)+"..." :title
   return (
   

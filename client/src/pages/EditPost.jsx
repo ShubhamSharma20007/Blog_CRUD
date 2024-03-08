@@ -6,6 +6,7 @@ import {UserContext} from '../Context/userContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import striptags from "striptags"
 import axios from 'axios';
+import {toast} from "react-toastify"
 function EditPost() {
   const {id} = useParams();
   const navigate = useNavigate();
@@ -28,9 +29,10 @@ function EditPost() {
       try {
         const res = await axios.get(`${process.env.REACT_APP_BASE_POST_URL}/${id}`);
         const data = await res.data;
+  
         setupdatedata(data.post);
       } catch (error) {
-        setError(error.response.data.message);
+        toast.error(error.response.data.message)
       }
     };
     getPost();
@@ -55,10 +57,14 @@ function EditPost() {
         },
       });
       if (res.status === 200) {
-       return  navigate('/');
+       toast.success('Post Updated Successfully');
+       setTimeout(() => {
+        return  navigate('/');
+       },2000)
       }
     } catch (error) {
-      setError(error.message);
+      toast.error(error.reponse.data.message)
+
     }
   }
 
